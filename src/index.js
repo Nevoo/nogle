@@ -11,6 +11,7 @@ const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID;
 const notion = new Client({ auth: NOTION_KEY });
 
 app.get('/', (req, res) => {
+    console.log("hello");
     res.send("Hello world");
 });
 

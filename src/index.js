@@ -9,4 +9,4 @@ const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID;
 
 const notion = new Client({ auth: NOTION_KEY });
 
-console.log('test');
+console.log('testt');

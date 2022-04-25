@@ -1,33 +1,11 @@
 const express = require("express");
-const {google} = require('googleapis');
-
-
-const path = require('path');
 const app = express();
+const { googleAuth } = require('./auth');
+
 const port = process.env.PORT || 8080;
 
 app.get('/', async (req, res) => {
-    const googleAuthConfig = {
-        clientId: process.env.GOOG_CLIENT_ID,
-        clientSecret: process.env.GOOG_CLIENT_SECRET,
-        redirect: process.env.GOOG_REDIRECT,
-    };
-
-    const auth = new google.auth.OAuth2(
-        googleAuthConfig.clientId, 
-        googleAuthConfig.clientSecret, 
-        googleAuthConfig.redirect,
-    );
-
-    const defaultScope = [
-        'https://www.googleapis.com/auth/calendar.events.readonly',
-    ];
-
-    const url = auth.generateAuthUrl({
-        access_type: 'offline',
-        prompt: 'consent', // access type and approval prompt will force a new refresh token to be made each time
-        scope: defaultScope
-    });
+    const url = googleAuth();
 
     res.redirect(url);
 });

@@ -33,7 +33,7 @@ app.get('/dashboard', async (req, res) => {
         await setCredentials(req.query.code);
     }
 
-    const calendar = google.calendar("v3");
+    const calendar = google.calendar({ version: "v3", auth: authClient });
     calendar.events.list({
         calendarId: 'primary',
         timeMin: (new Date()).toISOString(),

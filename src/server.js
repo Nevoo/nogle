@@ -34,6 +34,7 @@ app.get('/dashboard', async (req, res) => {
 
     if(!accessToken && req.query.code) {
         await setCredentials(req.query.code);
+        console.log('set credentials with code');
     }
 
     // https://www.googleapis.com/calendar/v3/calendars/my_calendar@gmail.com/events/watch

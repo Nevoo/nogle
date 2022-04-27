@@ -92,7 +92,7 @@ app.get('/dashboard', async (req, res) => {
       // Request body metadata
       requestBody: {
         // request body parameters
-        "address": "https://nogle.herokuapp.com/",
+        "address": "https://nogle.herokuapp.com/notifications",
         //   "expiration": "my_expiration",
         "id": uuid(),
         "type": "web_hook",
@@ -112,6 +112,8 @@ app.get('/dashboard', async (req, res) => {
 
 app.post("/notifications", async (req, res) => {
   console.log("notified");
+  console.log(req.data);
+  res.send('notification received')
 });
 
 

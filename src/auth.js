@@ -1,7 +1,7 @@
 const { google } = require('googleapis');
 const fs = require('fs');
 
-const GOOGLE_REDIRECT = proccess.env.ENVIRONMENT == 'dev' ? 'http://localhost:8080/dashboard' : 'https://nogle.herokuapp.com/dashboard';
+const GOOGLE_REDIRECT = process.env.ENVIRONMENT === 'dev' ? 'http://localhost:8080/dashboard' : 'https://nogle.herokuapp.com/dashboard';
 
 const googleAuthConfig = {
     clientId: process.env.GOOG_CLIENT_ID,

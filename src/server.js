@@ -112,7 +112,7 @@ app.get('/dashboard', async (req, res) => {
 
 app.post("/notifications", async (req, res) => {
   console.log("notified");
-  console.log(req.data);
+  console.log(req);
   res.send('notification received')
 });
 

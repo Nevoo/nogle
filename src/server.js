@@ -11,7 +11,7 @@ app.get('/', async (req, res) => {
   res.redirect(res.locales.redirectUrl);
 });
 
-app.use('/calendar', require('./routes/calendar/calendar'))
+app.use('/calendar', require('./routes/calendar/router'))
 
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}/`); 

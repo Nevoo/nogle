@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
     res.send('notification received')
 });
 
-router.get("/start", async (req, res) => {
+router.post("/start", async (req, res) => {
     const calendar = google.calendar({ version: "v3", auth: authClient });
 
     const response = await calendar.events.watch({

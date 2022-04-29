@@ -2,7 +2,7 @@ const router  = require('express').Router();
 const { google } = require('googleapis');
 const { v4: uuid } = require('uuid');
 
-const { authClient } = require('../../../auth');
+const { authClient } = require('../../../services/auth');
 
 
 router.post("/", async (req, res) => {

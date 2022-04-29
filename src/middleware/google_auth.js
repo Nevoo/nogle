@@ -1,4 +1,4 @@
-const { authorize, GOOGLE_REDIRECT } = require('./auth');
+const { authorize, GOOGLE_REDIRECT } = require('../services/auth');
 
 
 const googleAuth = async (req, res, next) => {

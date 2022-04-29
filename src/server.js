@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-const { googleAuth } = require("./middleware");
+const { googleAuth } = require("./middleware/google_auth");
 
 const port = process.env.PORT || 8080;
 

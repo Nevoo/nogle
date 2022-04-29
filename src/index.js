@@ -2,6 +2,13 @@ require('dotenv').config();
 
 const { Client } = require("@notionhq/client");
 const { app } = require("./server");
+
+const connect = require('./services/mongo_connection');
+connect();
+
+const helmet = require('helmet');
+app.use(helmet());
+
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded({extended: false}));

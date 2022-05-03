@@ -6,9 +6,6 @@ const { setCredentials, authClient } = require('../../services/auth');
 router.use('/notifications', require('./notifications/notifications'))
 
 router.get('/dashboard', async (req, res) => {
-    console.log(req.query.code);
-    console.log(req.query.scope);
-
     let accessToken;
 
     try {
@@ -19,7 +16,7 @@ router.get('/dashboard', async (req, res) => {
     }
 
     if(!accessToken && !req.query.code) {
-        return res.send('not logged in')
+        return res.send('not logged in');
     };
 
     if(!accessToken && req.query.code) {

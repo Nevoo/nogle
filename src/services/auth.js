@@ -1,5 +1,5 @@
 const { google } = require('googleapis');
-const fs = require('fs');
+const User = require('../models/user');
 
 const BASE_API_ROUTE = process.env.ENVIRONMENT === 'dev' ? 'http://localhost:8080/' : 'https://nogle.herokuapp.com/';
 const REDIRECT_API_ROUTE = 'calendar/dashboard';
@@ -22,7 +22,7 @@ const defaultScope = [
 ];
 
 const authorize = async () => {
-    const refreshToken = readSavedRefreshTokenFromFile();
+    const refreshToken = await refreshTokenFromDb(process.env.TESTING_DB_ID);
 
     if(!refreshToken) return generateAuthUrl();
 
@@ -39,40 +39,43 @@ const generateAuthUrl = () => {
     return url;
 }
 
-const setCredentials = async (code) => {
+const setCredentials = async (code, id) => {
     const { tokens } = await authClient.getToken(code);
     authClient.setCredentials(tokens);
-    refreshToken(tokens);
+    await refreshToken(tokens, id);
 }
 
-const refreshToken = (tokens) => {
+const refreshToken = async (tokens, id) => {
     if(tokens.refresh_token) {
-        console.log(`REFRESH TOKEN: ${tokens.refresh_token}`);
-        writeRefreshTokenToFile(tokens.refresh_token);
-        const refreshToken = readSavedRefreshTokenFromFile();
+        const refreshToken = await refreshTokenFromDb(id, tokens.refresh_token);
         authClient.setCredentials({ refresh_token: refreshToken });
     }
 
     console.log(`ACCESS TOKEN: ${tokens.access_token}`);
 }
 
-const writeRefreshTokenToFile = (refreshToken) => {
+const refreshTokenFromDb = async (id, refreshToken) => {
     try {
-        fs.writeFileSync('refresh_token.txt', refreshToken);
-    } catch (error) {
-        console.error(`couldnt save refresh token ${refreshToken}`);
-        console.error(error);
-    }
-}
+        let user = await User.findById(id);
 
-const readSavedRefreshTokenFromFile = () => {
-    try {
-        const refreshToken = fs.readFileSync('refresh_token.txt', 'utf8');
-        return refreshToken;
+        if(!user && refreshToken) {   
+            user = await saveUserRefreshTokenInDB(refreshToken);
+        } else if(user && user.refreshToken !== refreshToken) {
+            user.refreshToken = refreshToken;
+            user.save();
+        } 
+
+        return user.refreshToken;
     } catch (error) {
-        console.error(`couldnt read refresh token from file`);
+        console.error(error);
         return;
     }
+};
+
+const saveUserRefreshTokenInDB = async (refreshToken) => {
+    let user = User({ refreshToken });
+    await user.save();
+    return user;
 }
 
 module.exports = { 

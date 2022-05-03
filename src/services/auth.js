@@ -23,7 +23,8 @@ const defaultScope = [
 
 const authorize = async () => {
     const refreshToken = await refreshTokenFromDb(process.env.TESTING_DB_ID);
-
+    console.log(process.env.TESTING_DB_ID);
+    console.log(refreshToken);
     if(!refreshToken) return generateAuthUrl();
 
     authClient.setCredentials({refresh_token: refreshToken});
@@ -60,12 +61,12 @@ const refreshTokenFromDb = async (id, refreshToken) => {
 
         if(!user && refreshToken) {   
             user = await saveUserRefreshTokenInDB(refreshToken);
-        } else if(user && user.refreshToken !== refreshToken) {
+        } else if(refreshToken && (user && user.refreshToken !== refreshToken)) {
             user.refreshToken = refreshToken;
             user.save();
         } 
 
-        return user.refreshToken;
+        return user?.refreshToken;
     } catch (error) {
         console.error(error);
         return;

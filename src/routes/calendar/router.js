@@ -1,7 +1,7 @@
 const router  = require('express').Router();
 const { google } = require('googleapis');
 
-const { setCredentials, authClient } = require('../../services/auth');
+const { setCredentials, authClient } = require('../../services/google_auth');
 
 router.use('/notifications', require('./notifications/notifications'))
 

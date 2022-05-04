@@ -2,7 +2,7 @@ const router  = require('express').Router();
 const { google } = require('googleapis');
 const { v4: uuid } = require('uuid');
 
-const { authClient } = require('../../../services/auth');
+const { authClient } = require('../../../services/google_auth');
 
 
 router.post("/", async (req, res) => {
@@ -42,8 +42,8 @@ router.post("/stop", async (req, res) => {
 
     const response = await calendar.channels.stop({
         requestBody: {
-        "id": "ab9e7fa7-ceb5-4e01-8c6c-02fadbbdefd3",
-        "resourceId": "ulTl_1ud42ihL5lhLVfWFOBO1-w",
+          "id": "ab9e7fa7-ceb5-4e01-8c6c-02fadbbdefd3",
+          "resourceId": "ulTl_1ud42ihL5lhLVfWFOBO1-w",
         },
     });
 
